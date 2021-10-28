@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by : Pourya Bahrami
@@ -17,6 +17,15 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "state")
+@Table(name = "states")
 public class State extends BaseEntity {
+
+    @OneToMany(mappedBy = "state")
+    private List<Bill> bills;
+
+    @ManyToOne
+    private User landLord;
+
+    @OneToMany(mappedBy = "state")
+    private List<Contract> contracts;
 }
