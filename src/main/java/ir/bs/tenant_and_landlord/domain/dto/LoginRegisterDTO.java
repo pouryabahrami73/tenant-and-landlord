@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by : Pourya Bahrami
  * Date : 10/29/21
@@ -15,7 +18,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoginRegisterDTO {
 
+    @NotNull(message = "Mobile number can't be null.")
+    @NotBlank(message = "Mobile number can't be blank.")
     private String mobileNumber;
 
+    @NotNull(message = "Password can't be null.")
+    @NotBlank(message = "Password can't be blank.")
     private String password;
 }
