@@ -28,6 +28,10 @@ public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler
 
     private final UserService service;
 
+    public MyLoginSuccessHandler(UserService service) {
+        this.service = service;
+    }
+
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
@@ -49,9 +53,9 @@ public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler
         }
         if(roles.contains("ROLE_ADMIN")){
             url = "/admin";
-        }else if (roles.contains("ROLE_MASTER") & user.isActive()){
+        }else if (roles.contains("ROLE_MASTER")){
             url = "/master";
-        }else if (roles.contains("ROLE_STUDENT") & user.isActive()){
+        }else if (roles.contains("ROLE_STUDENT")){
             url = "/student";
         }else {
             url = "/user/not-registered";

@@ -1,5 +1,6 @@
 package ir.bs.tenant_and_landlord.service;
 
+import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 
 /**
@@ -10,4 +11,8 @@ import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 public interface UserService {
 
     void register(LoginRegisterDTO registerDTO);
+
+    User findByUserName(String name);
+
+    User findByNationalCode(long nationalCode);
 }

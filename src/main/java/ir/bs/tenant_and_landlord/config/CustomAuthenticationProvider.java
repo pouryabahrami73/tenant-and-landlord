@@ -1,5 +1,6 @@
 package ir.bs.tenant_and_landlord.config;
 
+import ir.bs.tenant_and_landlord.service.Impl.MyUserDetailsService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,6 +1,5 @@
 package ir.bs.tenant_and_landlord.service.Impl;
 
-import ir.bs.tenant_and_landlord.domain.MyUserDetails;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 import ir.bs.tenant_and_landlord.repository.UserRepository;
@@ -37,11 +36,21 @@ public class MyUserDetailsServiceImpl implements UserDetailsService, UserService
         Optional<User> user = repository.findByPhoneNumber(phoneNumber);
 
         user.orElseThrow(()-> new UsernameNotFoundException("کاربری با این نام کاربری یافت نشد!"));
-        return user.map(MyUserDetails::new).get();
+        return /*user.map(MyUserDetails::new).get()*/ null;
     }
 
     @Override
     public void register(LoginRegisterDTO registerDTO) {
         UserDetails userDetails = loadUserByUsername(registerDTO.getMobileNumber());
+    }
+
+    @Override
+    public User findByUserName(String name) {
+        return null;
+    }
+
+    @Override
+    public User findByNationalCode(long nationalCode) {
+        return null;
     }
 }

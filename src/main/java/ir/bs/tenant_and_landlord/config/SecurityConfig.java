@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
                 .mvcMatchers("/sign-in").permitAll()
                 .and().formLogin()
-                .loginPage("/login").permitAll().successHandler(successHandler)
+                .successHandler(successHandler)
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
     }
