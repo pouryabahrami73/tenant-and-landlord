@@ -12,7 +12,7 @@ public interface UserService {
 
     void register(LoginRegisterDTO registerDTO);
 
-    User findByUserName(String name);
+    User loadUserByPhoneNumber(String phoneNumber);
 
     User findByNationalCode(long nationalCode);
 }

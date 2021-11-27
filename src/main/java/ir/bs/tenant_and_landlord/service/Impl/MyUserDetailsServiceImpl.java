@@ -1,15 +1,16 @@
 package ir.bs.tenant_and_landlord.service.Impl;
 
+import ir.bs.tenant_and_landlord.domain.MyUserDetails;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 import ir.bs.tenant_and_landlord.repository.UserRepository;
-import ir.bs.tenant_and_landlord.service.UserService;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -20,15 +21,13 @@ import java.util.Optional;
  */
 
 @Service
-public class MyUserDetailsServiceImpl implements UserDetailsService, UserService {
+public class MyUserDetailsServiceImpl implements MyUserDetailsService {
 
     private final UserRepository repository;
 
-    private final PasswordEncoder passwordEncoder;
 
-    public MyUserDetailsServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public MyUserDetailsServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,7 +44,12 @@ public class MyUserDetailsServiceImpl implements UserDetailsService, UserService
     }
 
     @Override
-    public User findByUserName(String name) {
+    public User loadUserByPhoneNumber(String phoneNumber) {
+        try {
+            return repository.findByPhoneNumber(phoneNumber).get();
+        }catch (NoSuchElementException e){
+            LoggerFactory.getLogger(MyUserDetails.class).warn("no value");
+        }
         return null;
     }
 

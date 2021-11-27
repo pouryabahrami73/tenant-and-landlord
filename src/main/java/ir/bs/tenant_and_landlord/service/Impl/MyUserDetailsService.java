@@ -1,39 +1,31 @@
 package ir.bs.tenant_and_landlord.service.Impl;
 
-import ir.bs.tenant_and_landlord.domain.MyUserDetails;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
-import ir.bs.tenant_and_landlord.repository.UserRepository;
 import ir.bs.tenant_and_landlord.service.UserService;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
-@Service
-public class MyUserDetailsService implements UserDetailsService, UserService {
+public interface MyUserDetailsService extends UserDetailsService, UserService {
 
-    private final UserRepository repository;
+//    private final UserRepository repository;
 
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
+/*
     public MyUserDetailsService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
+*/
 
-    @Override
+    /*@Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = repository.findByUserName(userName);
+        Optional<User> user = repository.findByPhoneNumber(userName);
 
         user.orElseThrow(()-> new UsernameNotFoundException("کاربری با این نام کاربری یافت نشد!"));
-        return /*user.map(MyUserDetails::new).get()*/ null;
-    }
+        return *//*user.map(MyUserDetails::new).get()*//* null;
+    }*/
     /*@Override
     public User save(User user) {
         User savedUser = repository.save(user);
@@ -91,23 +83,9 @@ public class MyUserDetailsService implements UserDetailsService, UserService {
         return passWord;
     }*/
 
-    @Override
-    public void register(LoginRegisterDTO registerDTO) {
+    void register(LoginRegisterDTO registerDTO);
 
-    }
+    User loadUserByPhoneNumber(String phoneNumber);
 
-    @Override
-    public User findByUserName(String name) {
-        try {
-            return repository.findByUserName(name).get();
-        }catch (NoSuchElementException e){
-            LoggerFactory.getLogger(MyUserDetails.class).warn("no value");
-        }
-        return null;
-    }
-
-    @Override
-    public User findByNationalCode(long nationalCode) {
-        return repository.findByNationalCode(nationalCode);
-    }
+    User findByNationalCode(long nationalCode);
 }

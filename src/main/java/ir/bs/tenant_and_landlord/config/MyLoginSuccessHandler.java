@@ -45,7 +45,7 @@ public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler
 
     protected String determineTargetUrl(Authentication authentication) {
         String url = "/login?error=ture";
-        User user = service.findByUserName(authentication.getName());
+        User user = service.loadUserByPhoneNumber(authentication.getName());
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         List<String> roles = new ArrayList<>();
         for (GrantedAuthority authority: authorities){
