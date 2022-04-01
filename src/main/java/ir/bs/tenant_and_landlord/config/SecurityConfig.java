@@ -1,6 +1,7 @@
 package ir.bs.tenant_and_landlord.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,10 +19,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomAuthenticationProvider authenticationProvider;
-    private final MyLoginSuccessHandler successHandler;
+    private final AuthenticationProvider authenticationProvider;
+    private final LoginSuccessHandler successHandler;
 
-    public SecurityConfig(CustomAuthenticationProvider authenticationProvider, MyLoginSuccessHandler successHandler) {
+    public SecurityConfig(AuthenticationProvider authenticationProvider, LoginSuccessHandler successHandler) {
         this.authenticationProvider = authenticationProvider;
         this.successHandler = successHandler;
     }
@@ -42,13 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
                 .authorizeRequests()
-                .antMatchers("../static/css/**").permitAll()
-                .mvcMatchers("/admin/**").hasRole("ADMIN")
-                .mvcMatchers("/sign-up-form").permitAll()
-                .mvcMatchers("/user/not-registered").hasAnyRole("MASTER", "STUDENT")
-                .mvcMatchers("/master/**").hasAnyRole("MASTER", "ADMIN")
-                .mvcMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
-                .mvcMatchers("/sign-in").permitAll()
+//                .antMatchers("../static/css/**").permitAll()
+//                .mvcMatchers("/admin/**").hasRole("ADMIN")
+                .mvcMatchers("/register").permitAll()
+//                .mvcMatchers("/user/not-registered").hasAnyRole("MASTER", "STUDENT")
+//                .mvcMatchers("/master/**").hasAnyRole("MASTER", "ADMIN")
+//                .mvcMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
+                .mvcMatchers("/login").permitAll()
                 .and().formLogin()
                 .successHandler(successHandler)
                 .and().logout()

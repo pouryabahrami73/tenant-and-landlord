@@ -23,9 +23,6 @@ public class State extends BaseEntity {
     @OneToMany(mappedBy = "state")
     private List<Bill> bills;
 
-    @ManyToOne
-    private User landLord;
-
     @OneToMany(mappedBy = "state")
     private List<Contract> contracts;
 }

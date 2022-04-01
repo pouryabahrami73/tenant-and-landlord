@@ -1,6 +1,5 @@
 package ir.bs.tenant_and_landlord.domain;
 
-import ir.bs.tenant_and_landlord.domain.enums.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,13 +16,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-//@MappedSuperclass
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User extends BaseEntity {
-
-    @OneToMany
-    private List<Contract> contracts;
 
     @Column(name = "first_name")
     private String firstName;
@@ -31,7 +26,7 @@ public class User extends BaseEntity {
     @Column(name = "last_name", unique = true, nullable = false)
     private String lastName;
 
-    @Column(name = "phone _number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "national_code", unique = true, nullable = false)
@@ -40,7 +35,6 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @OneToMany(mappedBy = "user")
+    private List<UserRoleContractJunction> userRoleContractJunctions;
 }

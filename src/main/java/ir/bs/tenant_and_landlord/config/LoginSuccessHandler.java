@@ -24,11 +24,11 @@ import java.util.List;
  */
 
 @Configuration
-public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final UserService service;
 
-    public MyLoginSuccessHandler(UserService service) {
+    public LoginSuccessHandler(UserService service) {
         this.service = service;
     }
 

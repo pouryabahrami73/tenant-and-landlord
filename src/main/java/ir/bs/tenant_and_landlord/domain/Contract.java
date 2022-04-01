@@ -17,16 +17,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "contracts")
+@Table(name = "contract")
 public class Contract extends BaseEntity {
-
-    @ManyToOne
-    @JoinColumn(name = "tenant_id", unique = true)
-    private User tenant;
-
-    @ManyToOne
-    @JoinColumn(name = "land_lord_id", unique = true)
-    private User landLord;
 
     @ManyToOne
     @JoinColumn(name = "state_id", unique = true)
@@ -56,4 +48,7 @@ public class Contract extends BaseEntity {
     @Lob
     @Column(name = "file", columnDefinition = "longblob")
     private String file;
+
+    @OneToMany(mappedBy = "contract")
+    private List<UserRoleContractJunction> userRoleContractJunctions;
 }

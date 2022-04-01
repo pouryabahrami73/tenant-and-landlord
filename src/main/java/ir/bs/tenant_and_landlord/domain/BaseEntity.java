@@ -5,10 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -20,10 +17,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseEntity {
+public class  BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @CreationTimestamp
@@ -32,16 +30,4 @@ public class BaseEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAtDateTime;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        else if (!(o instanceof BaseEntity)) return false;
-        BaseEntity that = (BaseEntity) o;
-        return Objects.equals(getId(), that.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 }

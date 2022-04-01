@@ -1,7 +1,6 @@
 package ir.bs.tenant_and_landlord.domain;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,10 +10,10 @@ import java.util.List;
  * Date : 10/29/21
  * Time : 10:27 PM
  */
-public class MyUserDetails implements UserDetails {
+public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-    private String userName;
-    private String passWord;
+    private String username;
+    private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
 

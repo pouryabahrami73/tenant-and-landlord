@@ -1,13 +1,12 @@
 package ir.bs.tenant_and_landlord.service.Impl;
 
-import ir.bs.tenant_and_landlord.domain.MyUserDetails;
+import ir.bs.tenant_and_landlord.domain.UserDetails;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 import ir.bs.tenant_and_landlord.repository.UserRepository;
+import ir.bs.tenant_and_landlord.service.UserDetailsService;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -21,17 +20,17 @@ import java.util.Optional;
  */
 
 @Service
-public class MyUserDetailsServiceImpl implements MyUserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository repository;
 
 
-    public MyUserDetailsServiceImpl(UserRepository repository) {
+    public UserDetailsServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
+    public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
         Optional<User> user = repository.findByPhoneNumber(phoneNumber);
 
         user.orElseThrow(()-> new UsernameNotFoundException("کاربری با این نام کاربری یافت نشد!"));
@@ -40,7 +39,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
 
     @Override
     public void register(LoginRegisterDTO registerDTO) {
-        UserDetails userDetails = loadUserByUsername(registerDTO.getMobileNumber());
+        org.springframework.security.core.userdetails.UserDetails userDetails = loadUserByUsername(registerDTO.getMobileNumber());
     }
 
     @Override
@@ -48,7 +47,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
         try {
             return repository.findByPhoneNumber(phoneNumber).get();
         }catch (NoSuchElementException e){
-            LoggerFactory.getLogger(MyUserDetails.class).warn("no value");
+            LoggerFactory.getLogger(UserDetails.class).warn("no value");
         }
         return null;
     }

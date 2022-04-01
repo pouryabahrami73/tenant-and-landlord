@@ -1,6 +1,7 @@
 package ir.bs.tenant_and_landlord.config;
 
-import ir.bs.tenant_and_landlord.service.Impl.MyUserDetailsService;
+import ir.bs.tenant_and_landlord.service.UserDetailsService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,13 +18,14 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class AuthenticationProviderImpl implements AuthenticationProvider {
 
-    private final MyUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     private final PasswordEncoder passwordEncoder;
 
-    public CustomAuthenticationProvider(MyUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    @Lazy
+    public AuthenticationProviderImpl(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }

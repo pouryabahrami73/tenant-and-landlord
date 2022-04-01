@@ -12,5 +12,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum UserRole {
-        TENANT, LAND_LORD;
+        TENANT, LAND_LORD
 }

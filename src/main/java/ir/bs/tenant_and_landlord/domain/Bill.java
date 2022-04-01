@@ -1,5 +1,6 @@
 package ir.bs.tenant_and_landlord.domain;
 
+import ir.bs.tenant_and_landlord.domain.enums.BillType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,4 +23,8 @@ public class Bill extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "state_id")
     private State state;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private BillType billType;
 }
