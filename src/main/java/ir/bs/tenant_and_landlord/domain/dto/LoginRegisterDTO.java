@@ -20,7 +20,7 @@ public class LoginRegisterDTO {
 
     @NotNull(message = "Mobile number can't be null.")
     @NotBlank(message = "Mobile number can't be blank.")
-    private String mobileNumber;
+    private String phoneNumber;
 
     @NotNull(message = "Password can't be null.")
     @NotBlank(message = "Password can't be blank.")

@@ -3,6 +3,8 @@ package ir.bs.tenant_and_landlord.service;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 
+import java.util.Optional;
+
 
 public interface UserDetailsService extends org.springframework.security.core.userdetails.UserDetailsService, UserService {
 
@@ -83,7 +85,7 @@ public interface UserDetailsService extends org.springframework.security.core.us
 
     void register(LoginRegisterDTO registerDTO);
 
-    User loadUserByPhoneNumber(String phoneNumber);
+    Optional<User> loadUserByPhoneNumber(String phoneNumber);
 
     User findByNationalCode(long nationalCode);
 }

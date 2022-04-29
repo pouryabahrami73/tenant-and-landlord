@@ -1,15 +1,16 @@
 package ir.bs.tenant_and_landlord.service.Impl;
 
-import ir.bs.tenant_and_landlord.domain.UserDetails;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
+import ir.bs.tenant_and_landlord.domain.mapper.UserMapper;
+import ir.bs.tenant_and_landlord.exception.AuthenticationException;
 import ir.bs.tenant_and_landlord.repository.UserRepository;
 import ir.bs.tenant_and_landlord.service.UserDetailsService;
-import org.slf4j.LoggerFactory;
+import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -24,6 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository repository;
 
+    private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+
 
     public UserDetailsServiceImpl(UserRepository repository) {
         this.repository = repository;
@@ -33,23 +36,31 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
         Optional<User> user = repository.findByPhoneNumber(phoneNumber);
 
-        user.orElseThrow(()-> new UsernameNotFoundException("کاربری با این نام کاربری یافت نشد!"));
         return /*user.map(MyUserDetails::new).get()*/ null;
     }
 
     @Override
     public void register(LoginRegisterDTO registerDTO) {
-        org.springframework.security.core.userdetails.UserDetails userDetails = loadUserByUsername(registerDTO.getMobileNumber());
+        checkIfUserIsPresent(registerDTO);
+        registerUser(registerDTO);
+    }
+
+    private void registerUser(LoginRegisterDTO registerDTO) {
+        User user = userMapper.toEntity(registerDTO);
+        repository.save(user);
+    }
+
+    private void checkIfUserIsPresent(LoginRegisterDTO registerDTO) {
+        Optional<User> user = loadUserByPhoneNumber(registerDTO.getPhoneNumber());
+        user.ifPresent(user1 -> {
+            String msg = String.format("کاربری با شماره ٪s قبلا ثبت نام کرده", user.get().getPhoneNumber());
+            throw new AuthenticationException(msg, HttpStatus.NOT_ACCEPTABLE);
+        });
     }
 
     @Override
-    public User loadUserByPhoneNumber(String phoneNumber) {
-        try {
-            return repository.findByPhoneNumber(phoneNumber).get();
-        }catch (NoSuchElementException e){
-            LoggerFactory.getLogger(UserDetails.class).warn("no value");
-        }
-        return null;
+    public Optional<User> loadUserByPhoneNumber(String phoneNumber) {
+        return repository.findByPhoneNumber(phoneNumber);
     }
 
     @Override

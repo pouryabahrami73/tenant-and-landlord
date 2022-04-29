@@ -3,6 +3,8 @@ package ir.bs.tenant_and_landlord.service;
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 
+import java.util.Optional;
+
 /**
  * Created by : Pourya Bahrami
  * Date : 10/29/21
@@ -12,7 +14,7 @@ public interface UserService {
 
     void register(LoginRegisterDTO registerDTO);
 
-    User loadUserByPhoneNumber(String phoneNumber);
+    Optional<User> loadUserByPhoneNumber(String phoneNumber);
 
     User findByNationalCode(long nationalCode);
 }
