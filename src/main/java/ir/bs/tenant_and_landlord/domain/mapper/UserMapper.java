@@ -2,7 +2,7 @@ package ir.bs.tenant_and_landlord.domain.mapper;
 
 import ir.bs.tenant_and_landlord.domain.User;
 import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
-import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,10 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Time : 12:58 PM
  */
 
-@Mapper(componentModel = "spring", uses = PasswordEncoder.class, injectionStrategy = InjectionStrategy.FIELD)
-public interface UserMapper {
-
+@Mapper
+public abstract class UserMapper {
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(loginRegisterDTO.getPassword()))")
-    User toEntity(LoginRegisterDTO loginRegisterDTO);
+    public  abstract User toEntity(LoginRegisterDTO loginRegisterDTO, @Context PasswordEncoder passwordEncoder);
 }

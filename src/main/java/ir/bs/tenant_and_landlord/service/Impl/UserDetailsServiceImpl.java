@@ -9,6 +9,7 @@ import ir.bs.tenant_and_landlord.service.UserDetailsService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,12 +25,14 @@ import java.util.Optional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
 
-    public UserDetailsServiceImpl(UserRepository repository) {
+    public UserDetailsServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void registerUser(LoginRegisterDTO registerDTO) {
-        User user = userMapper.toEntity(registerDTO);
+        User user = userMapper.toEntity(registerDTO, passwordEncoder);
         repository.save(user);
     }
 
