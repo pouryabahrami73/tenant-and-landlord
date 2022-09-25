@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    void register(LoginRegisterDTO registerDTO);
+    void tryToRegister(LoginRegisterDTO registerDTO);
 
     Optional<User> loadUserByPhoneNumber(String phoneNumber);
 

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginRegisterResponseDTO extends BaseDTO{
+public class LoginRegisterResponseDTO extends BaseDTO {
 
     private String token;
 

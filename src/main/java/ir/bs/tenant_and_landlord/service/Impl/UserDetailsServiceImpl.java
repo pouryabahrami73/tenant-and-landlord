@@ -5,7 +5,7 @@ import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
 import ir.bs.tenant_and_landlord.domain.mapper.UserMapper;
 import ir.bs.tenant_and_landlord.exception.AuthenticationException;
 import ir.bs.tenant_and_landlord.repository.UserRepository;
-import ir.bs.tenant_and_landlord.service.UserDetailsService;
+import ir.bs.tenant_and_landlord.service.CustomUserDetailsService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements CustomUserDetailsService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -43,9 +43,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public void register(LoginRegisterDTO registerDTO) {
-        checkIfUserIsPresent(registerDTO);
-        registerUser(registerDTO);
+    public void tryToRegister(LoginRegisterDTO registerDTO) {
+        if (checkIfUserIsPresent(registerDTO)) {
+            throw new AuthenticationException("کاربری با این شماره قبلا ثبت نام کرده", HttpStatus.NOT_ACCEPTABLE);
+        } else {
+            registerUser(registerDTO);
+        }
     }
 
     private void registerUser(LoginRegisterDTO registerDTO) {
@@ -53,12 +56,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         repository.save(user);
     }
 
-    private void checkIfUserIsPresent(LoginRegisterDTO registerDTO) {
+    private boolean checkIfUserIsPresent(LoginRegisterDTO registerDTO) {
         Optional<User> user = loadUserByPhoneNumber(registerDTO.getPhoneNumber());
-        user.ifPresent(user1 -> {
-            String msg = String.format("کاربری با شماره ٪s قبلا ثبت نام کرده", user.get().getPhoneNumber());
-            throw new AuthenticationException(msg, HttpStatus.NOT_ACCEPTABLE);
-        });
+        return user.isPresent();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ir.bs.tenant_and_landlord.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -7,6 +8,8 @@ import org.springframework.http.HttpStatus;
  * Date : 4/29/22
  * Time : 12:27 PM
  */
+
+@Getter
 public class AuthenticationException extends RuntimeException {
 
     private String msg;

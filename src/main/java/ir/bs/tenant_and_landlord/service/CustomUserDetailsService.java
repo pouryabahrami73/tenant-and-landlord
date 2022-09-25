@@ -1,12 +1,12 @@
 package ir.bs.tenant_and_landlord.service;
 
 import ir.bs.tenant_and_landlord.domain.User;
-import ir.bs.tenant_and_landlord.domain.dto.LoginRegisterDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
 
 
-public interface UserDetailsService extends org.springframework.security.core.userdetails.UserDetailsService, UserService {
+public interface CustomUserDetailsService extends UserDetailsService, UserService {
 
 //    private final UserRepository repository;
 
@@ -83,7 +83,7 @@ public interface UserDetailsService extends org.springframework.security.core.us
         return passWord;
     }*/
 
-    void register(LoginRegisterDTO registerDTO);
+//    void register(LoginRegisterDTO registerDTO);
 
     Optional<User> loadUserByPhoneNumber(String phoneNumber);
 

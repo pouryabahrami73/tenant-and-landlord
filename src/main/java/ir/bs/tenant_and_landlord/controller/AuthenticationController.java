@@ -35,7 +35,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO<LoginRegisterResponseDTO>> register(@Valid @RequestBody LoginRegisterDTO registerDTO) {
-        userService.register(registerDTO);
+        userService.tryToRegister(registerDTO);
         return null;
     }
 }
